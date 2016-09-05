@@ -9,7 +9,7 @@
 
 #define MAX_DLC 8
 
-#define DBG 1
+#define DBG 0
 
 static QString ff_str[2] = {"Standard", "Extended"};
 

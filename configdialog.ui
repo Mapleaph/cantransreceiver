@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>267</width>
-    <height>179</height>
+    <width>313</width>
+    <height>184</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -37,7 +37,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Device:</string>
+           <string>Device: (e.g. /dev/can0)</string>
           </property>
          </widget>
         </item>
@@ -47,7 +47,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Baudrate (KBps):</string>
+           <string>Baudrate (kBit/s):</string>
           </property>
          </widget>
         </item>

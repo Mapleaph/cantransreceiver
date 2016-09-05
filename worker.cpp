@@ -4,13 +4,18 @@ qint32 canFD = -1;
 
 volatile bool start_test_flag = true;
 
+qint32 pid = -1;
+
+pthread_t recv_thread;
+
 void* recvPort(void *args)
 {
-    unsigned int i = 0, j;
     CAN_MESSAGE msg;
     Worker *tmpWorker = (Worker*)args;
     QTime t;
 
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
     while (start_test_flag) {
 
@@ -65,11 +70,11 @@ void Worker::doOpen(Settings currentSettings)
 
         initPort(canFD, baudrate, acc, acm);
 
-        pthread_t recv_thread;
+
 
         start_test_flag = true;
 
-        pthread_create(&recv_thread, NULL, recvPort, this);
+        pid = pthread_create(&recv_thread, NULL, recvPort, this);
 
         emit sigOpened();
 
@@ -83,6 +88,10 @@ void Worker::doClose()
     start_test_flag = false;
 
     intervalGen(100);
+
+    pthread_cancel(recv_thread);
+
+    pthread_join(recv_thread, NULL);
 
     ::close(canFD);
 
@@ -103,19 +112,16 @@ void Worker::doSend(CAN_MESSAGE msg)
     }
 #endif
 
-    qint8 ret;
-
-    ret = ::write(canFD, &msg, sizeof(msg));
+    ::write(canFD, &msg, sizeof(msg));
 
 }
 
 void Worker::doLoopSend(CAN_MESSAGE msg, qint32 interval)
 {
-    qint8 ret;
 
     while (loopFlag) {
 
-        ret = ::write(canFD, &msg, sizeof(msg));
+        ::write(canFD, &msg, sizeof(msg));
 
         intervalGen(interval);
 

@@ -165,7 +165,6 @@ void Dialog::on_pushButton_2_clicked()
             connect(this, SIGNAL(sigClose()), transceiver, SLOT(doClose()));
             connect(transceiver, SIGNAL(sigOpened()), this, SLOT(handleOpened()));
             connect(transceiver, SIGNAL(sigExitThread()), this, SLOT(exitThread()));
-            //connect(transceiver, SIGNAL(sigClosed()), this, SLOT(handleClosed()));
             connect(transceiver, SIGNAL(sigOpenFailed()), this, SLOT(handleOpenFailed()));
             connect(this, SIGNAL(sigSend(CAN_MESSAGE)), transceiver, SLOT(doSend(CAN_MESSAGE)));
             connect(this, SIGNAL(sigLoopSend(CAN_MESSAGE, qint32)), transceiver, SLOT(doLoopSend(CAN_MESSAGE, qint32)));
@@ -254,10 +253,6 @@ void Dialog::changeToClosedUi()
 
 void Dialog::on_pushButton_3_clicked()
 {
-
-    //qint8 dlc = ui->comboBox->currentText().toInt();
-    //qint8 id = ui->lineEdit->text().toInt(0, 16);
-    //qint8 ff = this->currentSettings->ff;
 
     CAN_MESSAGE *msg = new CAN_MESSAGE;
 
